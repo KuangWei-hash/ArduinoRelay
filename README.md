@@ -5,7 +5,7 @@
 - Immediately logic judges and reaction
 - Prometheus supported
 
-##Usage
+## Usage
 - get command
 
 `/getAll`
@@ -17,7 +17,7 @@ set a pin into value, note that this is for digital output, the value only can b
 `/setPinPWM/{pin}/{value}`
 set a pin into value, note that this is for PWM output, the value only can be 0 to 255. Only pins 3, 5, 6, and 9 are functional.
 
-##Communication Formate
+## Communication Formate
 The server will query Arduino every 250ms, it will return 16 bytes which are:
 command: 1 byte, value is 3
 analog 0: 2 bytes 
