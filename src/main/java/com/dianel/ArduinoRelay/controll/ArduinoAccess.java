@@ -44,7 +44,7 @@ public class ArduinoAccess {
             return "數值錯誤";
         if(pin>=10||pin==4||pin<0||pin==0||pin==1)
             return "腳位不能使用";
-        arduinoAccessService.write(new byte[]{1,(byte)pin,(byte)value});
+        arduinoAccessService.setPin(pin,value);
         return "設定腳位:"+pin+" 值為:"+value;
     }
     @GetMapping("/setPinPWM/{pin}/{value}")
@@ -53,7 +53,7 @@ public class ArduinoAccess {
             return "數值錯誤";
         if(pin>=10||pin==4||pin<0||pin==0||pin==1||pin==2||pin==8||pin==7)
             return "腳位不能使用";
-        arduinoAccessService.write(new byte[]{2,(byte)pin,(byte)value});
+        arduinoAccessService.setPinPWM(pin,value);
         return "設定腳位PWM:"+pin+" 值為:"+value;
     }
 }

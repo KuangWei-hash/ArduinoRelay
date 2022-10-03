@@ -7,6 +7,7 @@ import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +27,7 @@ public class ArduinoConnector {
     private int readIndex;
     private ScheduledExecutorService executorService;
 
+    public ArrayList<Logic> logics=new ArrayList<>();
     public ArduinoConnector(String host,int port)
     {
         this.host=host;
@@ -129,26 +131,13 @@ public class ArduinoConnector {
                 }
                 if(ArduinoAccess.pinMap!=null)
                     ArduinoAccess.pinMap.set(pingsInNumber);
-                logicCheck();
+                if(logics.size()>0) {
+                    for(index=0;index<logics.size();index++)
+                        logics.get(index).execute(this,analogPings,digitalPings);
+                }
                 break;
         }
     }
-    private void logicCheck()
-    {
-        //板子的數字已經刷新, 你可以檢查一下當前數字, 看看你有沒有什麼行動想要做的
-        //System.out.println("類比腳位數值:"+analogPings[0]+","+analogPings[1]+","+analogPings[2]+","+analogPings[3]+","+analogPings[4]+","+analogPings[5]);
-        String dd="";
-        for(int a=0;a<digitalPings.length;a++)
-        {
-            if(digitalPings[a])
-                dd+="1,";
-            else
-                dd+="0,";
-        }
-        //System.out.println("數位腳位:"+dd);
-        //System.out.println("全局針狀態:"+pingsInNumber);
-    }
-
     private byte[] digCommand=new byte[]{3,0,0};
     private void dig()
     {
@@ -160,8 +149,12 @@ public class ArduinoConnector {
             //2.所有digital pin目前數值
         }
     }
-
-
+    public boolean setPin(int pin,int value){
+        return write(new byte[]{1,(byte)pin,(byte)value});
+    }
+    public boolean setPinPWM(int pin,int value){
+        return write(new byte[]{2,(byte)pin,(byte)value});
+    }
     public boolean write(byte[] data)
     {
         if(onLine())

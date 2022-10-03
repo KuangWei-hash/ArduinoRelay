@@ -21,8 +21,11 @@ public class ArduinoAccessService {
     public void init() {
         arduinoConnector=new ArduinoConnector(config.getArduinoIP(),config.getArduinoPort());
     }
-    public boolean write(byte[] data){
-        return arduinoConnector.write(data);
+    public boolean setPin(int pin,int value){
+        return arduinoConnector.setPin(pin,value);
+    }
+    public boolean setPinPWM(int pin, int value){
+        return arduinoConnector.setPinPWM(pin,value);
     }
     public boolean getDigitalPin(int pin){
         return arduinoConnector.digitalPings[pin];
