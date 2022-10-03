@@ -32,4 +32,6 @@ The server will query Arduino every 250ms, it will return 16 bytes which are:
 |PINB|1|
 |PINC|1|
 
-analog value is from 0 to 1023. PIND,PINB,PINC are a bitmap of Arduino pins(true/false per bit)
+- command value is 3.
+- analog value is from 0 to 1023. 
+- PIND,PINB,PINC are a bitmap of Arduino pins(true/false per bit)
