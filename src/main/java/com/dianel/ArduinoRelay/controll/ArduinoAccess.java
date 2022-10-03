@@ -21,11 +21,16 @@ public class ArduinoAccess {
 
     public static AtomicInteger[] analogRecords=new AtomicInteger[6];
     public static AtomicInteger pinMap;
+
+    public static AtomicInteger[] digitalPinStatus=new AtomicInteger[14];
+
     public ArduinoAccess(MeterRegistry registry)
     {
         for(int a=0;a<6;a++)
             analogRecords[a] = registry.gauge("analog"+a, new AtomicInteger(0));
         pinMap=registry.gauge("pinMap",new AtomicInteger(0));
+        for(int a=0;a<14;a++)
+            digitalPinStatus[a] = registry.gauge("digital"+a, new AtomicInteger(0));
     }
 
     @GetMapping("/getAll")

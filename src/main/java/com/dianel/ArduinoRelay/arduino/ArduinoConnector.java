@@ -131,6 +131,16 @@ public class ArduinoConnector {
                 }
                 if(ArduinoAccess.pinMap!=null)
                     ArduinoAccess.pinMap.set(pingsInNumber);
+                if(ArduinoAccess.digitalPinStatus!=null) {
+                    for (index = 0; index < 14; index++) {
+                        if(ArduinoAccess.digitalPinStatus[index]!=null){
+                            if(digitalPings[index])
+                                ArduinoAccess.digitalPinStatus[index].set(1);
+                            else
+                                ArduinoAccess.digitalPinStatus[index].set(0);
+                        }
+                    }
+                }
                 if(logics.size()>0) {
                     for(index=0;index<logics.size();index++)
                         logics.get(index).execute(this,analogPings,digitalPings);
