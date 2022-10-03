@@ -1,6 +1,5 @@
 package com.dianel.ArduinoRelay.controll;
-
-import com.dianel.ArduinoRelay.Shared;
+import com.dianel.ArduinoRelay.configure.Config;
 import com.dianel.ArduinoRelay.service.ArduinoAccessService;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.prometheus.client.Counter;
@@ -15,6 +14,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ArduinoAccess {
     static final Counter REQUESTS = Counter.build().name("requests_total")
             .help("Total requests.").labelNames("label").register();
+    @Autowired
+    Config config;
     @Autowired
     ArduinoAccessService arduinoAccessService;
 
@@ -32,9 +33,9 @@ public class ArduinoAccess {
         //arduinoAccessService.getGreeting();
         String rr="";
         for(int a=0;a<6;a++)
-            rr+= ("<p>A"+a+":"+Shared.arduinoConnector.analogPings[a]+"</p>");
+            rr+= ("<p>A"+a+":"+arduinoAccessService.getAnalogPin(a)+"</p>");
         for(int a=0;a<14;a++)
-            rr+=("<p>D"+a+":"+Shared.arduinoConnector.digitalPings[a]+"</p>");
+            rr+=("<p>D"+a+":"+arduinoAccessService.getDigitalPin(a)+"</p>");
         return rr;
     }
     @GetMapping("/setPin/{pin}/{value}")
@@ -43,7 +44,7 @@ public class ArduinoAccess {
             return "數值錯誤";
         if(pin>=10||pin==4||pin<0||pin==0||pin==1)
             return "腳位不能使用";
-        Shared.arduinoConnector.write(new byte[]{1,(byte)pin,(byte)value});
+        arduinoAccessService.write(new byte[]{1,(byte)pin,(byte)value});
         return "設定腳位:"+pin+" 值為:"+value;
     }
     @GetMapping("/setPinPWM/{pin}/{value}")
@@ -52,7 +53,7 @@ public class ArduinoAccess {
             return "數值錯誤";
         if(pin>=10||pin==4||pin<0||pin==0||pin==1||pin==2||pin==8||pin==7)
             return "腳位不能使用";
-        Shared.arduinoConnector.write(new byte[]{2,(byte)pin,(byte)value});
+        arduinoAccessService.write(new byte[]{2,(byte)pin,(byte)value});
         return "設定腳位PWM:"+pin+" 值為:"+value;
     }
 }
