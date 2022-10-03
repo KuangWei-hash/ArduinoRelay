@@ -19,16 +19,17 @@ set a pin into value, note that this is for PWM output, the value only can be 0 
 
 ## Communication Formate
 The server will query Arduino every 250ms, it will return 16 bytes which are:
-command: 1 byte, value is 3
-analog 0: 2 bytes 
-analog 1: 2 bytes
-analog 2: 2 bytes 
-analog 3: 2 bytes
-analog 4: 2 bytes 
-analog 5: 2 bytes
-PIND: 1 byte
-PINB: 1 byte
-PINC: 1 byte
+|Name|bytes|
+|-|-|
+|command|1|
+|analog 0|2|
+|analog 1|2|
+|analog 2|2|
+|analog 3|2|
+|analog 4|2|
+|analog 5|2|
+|PIND|1|
+|PINB|1|
+|PINC|1|
 
-total: 16 bytes
 analog value is from 0 to 1023. PIND,PINB,PINC are a bitmap of Arduino pins(true/false per bit)
